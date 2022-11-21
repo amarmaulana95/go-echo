@@ -23,3 +23,9 @@ func ComparePassword(hashPassword string, password string) error {
 	err := bcrypt.CompareHashAndPassword(hw, pw)
 	return err
 }
+
+func VerifyPassword(hashedPassword, password string) error {
+	return bcrypt.CompareHashAndPassword(
+		[]byte(hashedPassword),
+		[]byte(password))
+}

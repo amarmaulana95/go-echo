@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/amarmaulana95/go-echo/schemas"
 	"github.com/golang-jwt/jwt"
 )
 
