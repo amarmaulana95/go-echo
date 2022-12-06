@@ -13,37 +13,35 @@ type handlerUser struct {
 }
 
 func NewHandlerUser(user entity.EntityUsers) *handlerUser {
-	return &handlerUser{
-		user: user,
-	}
+	return &handlerUser{user: user}
 }
 
 func (h *handlerUser) HandlerHello(c echo.Context) error {
 	return c.String(200, "Hello World")
 }
 
+// func (h *handlerUser) HandlerResults(c echo.Context) error {
+// 	_, err := h.user.EntityResults()
+
+// 	if err != nil {
+// 		result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", "Bad Request")
+// 		return c.JSON(http.StatusOK, result)
+
+// 	}
+// 	result := schemas.APIResponse("Success", http.StatusOK, "Error", "Success")
+// 	return c.JSON(http.StatusOK, result)
+// }
+
 func (h *handlerUser) HandlerResults(c echo.Context) error {
-	_, err := h.user.EntityResults()
+	res, err := h.user.EntityResults()
 
 	if err != nil {
-		result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", "Bad Request")
-		return c.JSON(http.StatusOK, result)
-		// c.JSON(400, schemas.SchemaResponses{
-		// 	StatusCode: 400,
-		// 	Message:    "Bad Request",
-		// 	Data:       nil,
-		// })
+		err := schemas.APIResponse("Bad Request", http.StatusBadGateway, "Error", "Bad Request")
+		return c.JSON(http.StatusBadGateway, err)
 
-		// return err
 	}
 
-	// return c.JSON(200, schemas.SchemaResponses{
-	// 	StatusCode: 200,
-	// 	Message:    "Success",
-	// 	Data:       res,
-	// })
-
-	result := schemas.APIResponse("Success", http.StatusOK, "Error", "Success")
+	result := schemas.APIResponse("Data user", http.StatusOK, "success", res)
 	return c.JSON(http.StatusOK, result)
 }
 
@@ -77,30 +75,22 @@ func (h *handlerUser) HandlerResults(c echo.Context) error {
 // 	})
 // }
 
-// func (h *handlerUser) HandlerResult(c echo.Context) error {
-// 	var body schemas.SchemaUser
-// 	id := c.Param("id")
+func (h *handlerUser) HandlerResult(c echo.Context) error {
+	var body schemas.SchemaUser
+	id := c.Param("id")
 
-// 	body.ID = id
+	body.ID = id
 
-// 	res, err := h.user.EntityResult(&body)
+	res, err := h.user.EntityResult(&body)
 
-// 	if err != nil {
-// 		c.JSON(400, schemas.SchemaResponses{
-// 			StatusCode: 400,
-// 			Message:    "Bad Request",
-// 			Data:       nil,
-// 		})
+	if err != nil {
+		result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", "Bad Request")
+		return c.JSON(http.StatusOK, result)
+	}
 
-// 		return err
-// 	}
-
-// 	return c.JSON(200, schemas.SchemaResponses{
-// 		StatusCode: 200,
-// 		Message:    "Success",
-// 		Data:       res,
-// 	})
-// }
+	result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", res)
+	return c.JSON(http.StatusOK, result)
+}
 
 // func (h *handlerUser) HandlerUpdate(c echo.Context) error {
 // 	var body schemas.SchemaUser

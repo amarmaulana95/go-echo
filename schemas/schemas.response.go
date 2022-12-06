@@ -2,11 +2,11 @@ package schemas
 
 import "github.com/go-playground/validator/v10"
 
-// type SchemaResponses struct {
-// 	StatusCode int         `json:"code"`
-// 	Message    string      `json:"message"`
-// 	Data       interface{} `json:"data"`
-// }
+type SchemaResponsesz struct {
+	StatusCode int         `json:"code"`
+	Message    string      `json:"message"`
+	Data       interface{} `json:"data"`
+}
 
 type SchemaResponses struct {
 	Meta meta        `json:"meta"`
