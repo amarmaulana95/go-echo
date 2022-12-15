@@ -8,13 +8,10 @@ import (
 )
 
 type ModelUser struct {
-	ID string `json:"id" gorm:"primary_key"`
-	// FirstName string    `json:"first_name" gorm:"type:varchar;  not null"`
-	// LastName  string    `json:"last_name" gorm:"type:varchar; not null"`
-	Username string `json:"username" gorm:"type:varchar;"`
-	Email    string `json:"email" gorm:"type:varchar; unique; not null"`
-	Password string `json:"password" gorm:"type:varchar; not null"`
-	// Role      string    `json:"role" gorm:"type:varchar; not null"`
+	ID        string    `json:"id" gorm:"primary_key"`
+	Username  string    `json:"username" gorm:"type:varchar;"`
+	Email     string    `json:"email" gorm:"type:varchar; unique; not null"`
+	Password  string    `json:"password" gorm:"type:varchar; not null"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }

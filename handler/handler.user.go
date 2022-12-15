@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/amarmaulana95/go-echo/entity"
 	"github.com/amarmaulana95/go-echo/schemas"
@@ -20,18 +22,6 @@ func (h *handlerUser) HandlerHello(c echo.Context) error {
 	return c.String(200, "Hello World")
 }
 
-// func (h *handlerUser) HandlerResults(c echo.Context) error {
-// 	_, err := h.user.EntityResults()
-
-// 	if err != nil {
-// 		result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", "Bad Request")
-// 		return c.JSON(http.StatusOK, result)
-
-// 	}
-// 	result := schemas.APIResponse("Success", http.StatusOK, "Error", "Success")
-// 	return c.JSON(http.StatusOK, result)
-// }
-
 func (h *handlerUser) HandlerResults(c echo.Context) error {
 	res, err := h.user.EntityResults()
 
@@ -45,104 +35,167 @@ func (h *handlerUser) HandlerResults(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-// func (h *handlerUser) HandlerCreate(c echo.Context) error {
-// 	var body schemas.SchemaUser
-
-// 	if err := c.Bind(&body); err != nil {
-// 		c.JSON(400, schemas.SchemaResponses{
-// 			StatusCode: 400,
-// 			Message:    "Bad Request",
-// 			Data:       nil,
-// 		})
-// 	}
-
-// 	_, error := h.user.EntityCreate(&body)
-
-// 	if error != nil {
-// 		c.JSON(400, schemas.SchemaResponses{
-// 			StatusCode: 400,
-// 			Message:    "Error",
-// 			Data:       nil,
-// 		})
-
-// 		return error
-// 	}
-
-// 	return c.JSON(200, schemas.SchemaResponses{
-// 		StatusCode: 200,
-// 		Message:    "Success",
-// 		Data:       body,
-// 	})
-// }
-
-func (h *handlerUser) HandlerResult(c echo.Context) error {
+func (h *handlerUser) HandlerResultService(c echo.Context) error {
 	var body schemas.SchemaUser
 	id := c.Param("id")
 
 	body.ID = id
 
-	res, err := h.user.EntityResult(&body)
+	res, err := h.user.EntityResultID(&body)
 
 	if err != nil {
 		result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", "Bad Request")
 		return c.JSON(http.StatusOK, result)
 	}
 
-	result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", res)
+	result := schemas.APIResponse("Ok", http.StatusUnprocessableEntity, "Success", res)
 	return c.JSON(http.StatusOK, result)
 }
 
-// func (h *handlerUser) HandlerUpdate(c echo.Context) error {
-// 	var body schemas.SchemaUser
+func (h *handlerUser) HandlerResultSearch(c echo.Context) error {
 
-// 	if err := c.Bind(&body); err != nil {
-// 		c.JSON(400, schemas.SchemaResponses{
-// 			StatusCode: 400,
-// 			Message:    "Bad Request",
-// 			Data:       nil,
-// 		})
-// 	}
+	err := c.Request().ParseForm()
+	if err != nil {
+		fmt.Println("error parsing form", err)
+	}
 
-// 	_, error := h.user.EntityUpdate(&body)
+	// responData := schemas.ResponStatusDataViewUser{}
 
-// 	if error != nil {
-// 		c.JSON(400, schemas.SchemaResponses{
-// 			StatusCode: 400,
-// 			Message:    "Error",
-// 			Data:       nil,
-// 		})
+	search := c.FormValue("q")
 
-// 		return error
-// 	}
+	// page_data := "1"
+	// if len(c.FormValue("_page")) > 0 {
+	// 	page_data = c.FormValue("_page")
+	// }
+	// page, err := strconv.ParseUint(page_data, 10, 64)
+	// if err != nil {
+	// 	return c.JSON(http.StatusBadRequest, err)
 
-// 	return c.JSON(200, schemas.SchemaResponses{
-// 		StatusCode: 200,
-// 		Message:    "Success",
-// 		Data:       body,
-// 	})
-// }
+	// }
 
-// func (h *handlerUser) HandlerDelete(c echo.Context) error {
-// 	var body schemas.SchemaUser
-// 	id := c.Param("id")
+	// limit_data := "100"
+	// if len(c.FormValue("_limit")) > 0 {
+	// 	limit_data = c.FormValue("_limit")
+	// }
 
-// 	body.ID = id
+	// limit, err := strconv.ParseUint(limit_data, 10, 64)
+	// if err != nil {
+	// 	return c.JSON(http.StatusBadRequest, err)
 
-// 	_, error := h.user.EntityDelete(&body)
+	// }
 
-// 	if error != nil {
-// 		c.JSON(400, schemas.SchemaResponses{
-// 			StatusCode: 400,
-// 			Message:    "Error",
-// 			Data:       nil,
-// 		})
+	// offset := ((page - 1) * limit)
 
-// 		return error
-// 	}
+	// responseProducts := schemas.SchemaUser{}
+	// arrResponAnalisa := []schemas.SchemaUser{}
+	res, err := h.user.EntityResultIDSearch(search)
 
-// 	return c.JSON(200, schemas.SchemaResponses{
-// 		StatusCode: 200,
-// 		Message:    "Success",
-// 		Data:       body,
-// 	})
-// }
+	// VarProducts := models.ModelUser{}
+	// arrayProducts := []models.ModelUser{}
+
+	// for i, _ := range arrayProducts { // loop through the files one by one
+	// 	VarProducts.ID = arrayProducts[i].ID
+	// 	VarProducts.Email = arrayProducts[i].Email
+
+	// 	responseProducts = schemas.SchemaUser{
+	// 		VarProducts.ID,
+	// 		VarProducts.Email,
+	// 		VarProducts.Username,
+	// 		VarProducts.Password,
+	// 	} //
+	// 	arrResponAnalisa = append(arrResponAnalisa, responseProducts)
+	// }
+
+	// dsemethodTotal := h.user.EntityResultIDSearchTotal(search)
+
+	// selisih := dsemethodTotal % limit
+
+	// total_pages := 1
+
+	// if selisih == 0 {
+	// 	total_pages = (int(dsemethodTotal) / int(limit))
+	// } else {
+	// 	total_pages = (int(dsemethodTotal) / int(limit)) + 1
+	// }
+
+	// if err != nil {
+	// 	result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", "Bad Request")
+	// 	return c.JSON(http.StatusOK, result)
+	// }
+
+	result := schemas.APIResponse("Data user", http.StatusOK, "Success", res)
+	return c.JSON(http.StatusOK, result)
+
+	// responData = schemas.ResponStatusDataViewUser{uint32(page), uint32(limit), uint32(total_pages), uint32(dsemethodTotal), arrResponAnalisa}
+	// return c.JSON(http.StatusOK, responData)
+
+}
+
+func (h *handlerUser) HandlerResultAll(c echo.Context) error {
+
+	err := c.Request().ParseForm()
+	if err != nil {
+		fmt.Println("error parsing form", err)
+	}
+
+	responData := schemas.ResponStatusDataViewUser{}
+
+	search := c.FormValue("q")
+
+	page_data := "1"
+	if len(c.FormValue("_page")) > 0 {
+		page_data = c.FormValue("_page")
+	}
+	page, err := strconv.ParseUint(page_data, 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+
+	}
+
+	limit_data := "100"
+	if len(c.FormValue("_limit")) > 0 {
+		limit_data = c.FormValue("_limit")
+	}
+
+	limit, err := strconv.ParseUint(limit_data, 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+
+	}
+
+	offset := ((page - 1) * limit)
+
+	// responseProducts := schemas.SchemaUser{}
+	// arrResponAnalisa := []schemas.SchemaUser{}
+
+	res, err := h.user.EntityResultAll(search, limit, offset)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+
+	}
+
+	// dsemethodTotal := h.user.EntityResultAllTotal(search)
+
+	// selisih := dsemethodTotal % limit
+
+	// total_pages := 1
+
+	// if selisih == 0 {
+	// 	total_pages = (int(dsemethodTotal) / int(limit))
+	// } else {
+	// 	total_pages = (int(dsemethodTotal) / int(limit)) + 1
+	// }
+
+	// if err != nil {
+	// 	result := schemas.APIResponse("Bad Request", http.StatusUnprocessableEntity, "Error", "Bad Request")
+	// 	return c.JSON(http.StatusOK, result)
+	// }
+
+	// result := schemas.APIResponse("Data user", http.StatusOK, "Success", res)
+	// return c.JSON(http.StatusOK, result)
+
+	responData = schemas.ResponStatusDataViewUser{uint32(page), uint32(limit), uint32(10), uint32(10), res}
+	return c.JSON(http.StatusOK, responData)
+
+}

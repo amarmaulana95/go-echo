@@ -7,5 +7,10 @@ import (
 
 type EntityUsers interface {
 	EntityResults() (*[]models.ModelUser, error)
-	EntityResult(input *schemas.SchemaUser) (*models.ModelUser, error)
+	EntityResultID(input *schemas.SchemaUser) (*models.ModelUser, error)
+	EntityResultIDSearch(search string) (*[]models.ModelUser, error)
+
+	EntityResultAll(search string, limit uint64, offset uint64) (*[]models.ModelUser, error)
+	// EntityResultAllTotal(search string) (*models.ModelUser, error)
+	// EntityResultIDSearchTotal(search string) (*models.ModelUser, error)
 }
