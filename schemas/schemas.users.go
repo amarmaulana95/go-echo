@@ -17,3 +17,7 @@ type ResponStatusDataViewUser struct {
 	Total       uint32      `json:"total"`
 	Data        interface{} `json:"data"`
 }
+
+type SchemaTotal struct {
+	Total int32 `json:"total"`
+}

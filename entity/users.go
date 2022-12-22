@@ -11,6 +11,7 @@ type EntityUsers interface {
 	EntityResultIDSearch(search string) (*[]models.ModelUser, error)
 
 	EntityResultAll(search string, limit uint64, offset uint64) (*[]models.ModelUser, error)
-	// EntityResultAllTotal(search string) (*models.ModelUser, error)
+	EntityResultAllTotal(search string) uint64
+
 	// EntityResultIDSearchTotal(search string) (*models.ModelUser, error)
 }
