@@ -99,8 +99,6 @@ func (h *handlerUser) HandlerResultAll(c echo.Context) error {
 
 	theTpage := h.user.EntityResultAllTotal(search)
 
-	fmt.Println(theTpage)
-
 	selisih := theTpage % limit
 
 	total_pages := 1
@@ -117,6 +115,7 @@ func (h *handlerUser) HandlerResultAll(c echo.Context) error {
 	}
 
 	responData = schemas.ResponStatusDataViewUser{uint32(page), uint32(limit), uint32(total_pages), uint32(theTpage), res}
-	return c.JSON(http.StatusOK, responData)
+	result := schemas.APIResponse("Data user", http.StatusOK, "Success", responData)
+	return c.JSON(http.StatusOK, result)
 
 }

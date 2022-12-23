@@ -67,16 +67,8 @@ func (r *repositoryUser) EntityResultAll(search string, limit uint64, offset uin
 
 func (r *repositoryUser) EntityResultAllTotal(search string) uint64 {
 	cari := "%" + search + "%"
-	var users models.ModelUser
-	result := r.db.Where("lower(username) like lower(?)", cari).Find(&users)
-	return uint64(result.RowsAffected)
-
+	tampung := []models.ModelUser{}
+	result := r.db.Debug().Where("lower(username) like lower(?)", cari).Find(&tampung)
+	hasil := uint64(result.RowsAffected)
+	return hasil
 }
-
-// func (r *repositoryUser) EntityResultAllTotal(search string) uint64 {
-// 	searchs := "%" + search + "%"
-// 	var user []models.ModelUser
-// 	result := r.db.Where("username = ?", searchs).Find(&user)
-// 	// return &user, nil
-// 	return uint64(result.RowsAffected)
-// }
