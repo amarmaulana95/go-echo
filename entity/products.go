@@ -6,5 +6,6 @@ import (
 
 type EntityProducts interface {
 	EntityResults() (*[]models.ModelProduct, error)
-	// FindByID(search string, ID string) (*[]models.ModelProduct, error)
+	EntityResultAll(search string, limit uint64, offset uint64) (*[]models.ModelProduct, error)
+	EntityResultAllTotal(search string) uint64
 }

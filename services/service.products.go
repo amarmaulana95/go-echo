@@ -22,3 +22,13 @@ func (s *serviceProduct) EntityResults() (*[]models.ModelProduct, error) {
 	}
 	return res, err
 }
+
+func (s *serviceProduct) EntityResultAll(search string, limit uint64, offset uint64) (*[]models.ModelProduct, error) {
+	res, err := s.products.EntityResultAll(search, limit, offset)
+	return res, err
+}
+
+func (s *serviceProduct) EntityResultAllTotal(search string) uint64 {
+	res := s.products.EntityResultAllTotal(search)
+	return res
+}

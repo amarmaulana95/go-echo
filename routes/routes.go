@@ -45,7 +45,8 @@ func NewRoute(db *gorm.DB, router *echo.Echo) {
 	routerUser.GET("/users/:id", handlerUser.HandlerResultService)
 	routerUser.GET("/cari", handlerUser.HandlerResultSearch)
 
-	routerProducts.GET("/products", handlerProduct.HandlerResults)
+	routerProducts.GET("/product", handlerProduct.HandlerResults)
+	routerProducts.GET("/products", handlerProduct.HandlerResultAll)
 	// routerProducts.GET("/productsID", handlerProduct.HandlerProductSearch)
 
 }
