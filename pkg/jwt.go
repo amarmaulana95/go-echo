@@ -22,3 +22,34 @@ func Sign(schemajwt *schemas.SchemaJWT) (string, error) {
 
 	return jwt, err
 }
+
+// func ValidateToken(tokenString string) (*jwt.Token, error) {
+
+// 	splitToken := strings.Split(tokenString, "Bearer ")
+
+// 	fmt.Println(splitToken[1])
+
+// 	token, _, err := new(jwt.Parser).ParseUnverified(splitToken[1], jwt.MapClaims{})
+// 	if err != nil {
+// 		fmt.Printf("Error %s", err)
+// 	}
+// 	claims := token.Claims.(jwt.MapClaims)
+// 	sub := fmt.Sprint(claims["id"])
+// 	fmt.Println(sub)
+
+// 	// token, err := jwt.Parse(splitToken[1], func(token *jwt.Token) (interface{}, error) {
+// 	// 	_, ok := token.Method.(*jwt.SigningMethodHMAC)
+// 	// 	//cek tokennya
+// 	// 	if !ok {
+// 	// 		return nil, errors.New("invalid token")
+// 	// 	}
+
+// 	// 	return []byte("screet"), nil
+// 	// })
+
+// 	// if err != nil {
+// 	// 	return token, err
+// 	// }
+// 	return token, err
+
+// }

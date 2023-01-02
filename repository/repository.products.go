@@ -37,7 +37,7 @@ func (r *repositoryProduct) EntityResultAll(search string, limit uint64, offset 
 	aslimit := limit
 	asoffset := offset
 	var products []models.ModelProduct
-	r.db.Debug().Model(&products).Select("id, name, price, created_at").Where("lower(name) like lower(?)", searchs).Order("id asc").Limit(int(aslimit)).Offset(int(asoffset)).Find(&products)
+	r.db.Debug().Model(&products).Select("id, name, price, description, created_at").Where("lower(name) like lower(?)", searchs).Order("id asc").Limit(int(aslimit)).Offset(int(asoffset)).Find(&products)
 	return &products, nil
 }
 

@@ -50,3 +50,53 @@ func NewRoute(db *gorm.DB, router *echo.Echo) {
 	// routerProducts.GET("/productsID", handlerProduct.HandlerProductSearch)
 
 }
+
+// func Authentication(next echo.HandlerFunc) echo.HandlerFunc {
+// 	var (
+// 		jwtKey = os.Getenv("JWT_KEY")
+// 	)
+
+// 	return func(c echo.Context) error {
+// 		authToken := c.Request().Header.Get("Authorization")
+// 		if authToken == "" {
+// 			return echo.NewHTTPError(http.StatusUnauthorized, "Please provide valid credentials")
+// 		}
+
+// 		splitToken := strings.Split(authToken, "Bearer ")
+// 		token, err := jwt.Parse(splitToken[1], func(token *jwt.Token) (interface{}, error) {
+// 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+// 				return nil, echo.NewHTTPError(http.StatusUnauthorized, "Please provide valid credentials")
+// 			}
+
+// 			return []byte(jwtKey), nil
+// 		})
+
+// 		if !token.Valid || err != nil {
+// 			return echo.NewHTTPError(http.StatusUnauthorized, "Please provide valid credentials")
+// 		}
+
+// 		var id int
+// 		destructID := token.Claims.(jwt.MapClaims)["id"]
+// 		if destructID != nil {
+// 			id = int(destructID.(float64))
+// 		} else {
+// 			id = 0
+// 		}
+// 		return id
+// 	}
+// }
+
+// token, _, err := new(jwt.Parser).ParseUnverified(tokenString, jwt.MapClaims{})
+// 	if err != nil {
+// 		fmt.Printf("Error %s", err)
+// 	}
+// 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
+// 		// obtains claims
+// 		sub := fmt.Sprint(claims["sub"])
+// 		name := fmt.Sprint(claims["name"])
+// 		// and so on and on
+// 		// ...
+// 		fmt.Printf("sub = %s\r\n", sub)
+// 		fmt.Printf("name = %s", name)
+
+// 	}

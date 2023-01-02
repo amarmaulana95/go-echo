@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/amarmaulana95/go-echo/entity"
+	"github.com/amarmaulana95/go-echo/middleware"
 	"github.com/amarmaulana95/go-echo/schemas"
 	"github.com/labstack/echo/v4"
 )
@@ -34,6 +35,7 @@ func (h *handlerProduct) HandlerResults(c echo.Context) error {
 }
 
 func (h *handlerProduct) HandlerResultAll(c echo.Context) error {
+
 	err := c.Request().ParseForm()
 	if err != nil {
 		fmt.Println("error parsing form", err)
@@ -83,8 +85,17 @@ func (h *handlerProduct) HandlerResultAll(c echo.Context) error {
 		return c.JSON(http.StatusOK, result)
 	}
 
+	tokenString := c.Request().Header.Get("Authorization")
+	varID := middleware.ExtractTokens(tokenString)
+
+	fmt.Printf("hasilnya -> %s\r\n", varID)
+
 	responData = schemas.ResponStatusDataViewUser{uint32(page), uint32(limit), uint32(total_pages), uint32(theTpage), res}
 	result := schemas.APIResponse("Data user", http.StatusOK, "Success", responData)
 	return c.JSON(http.StatusOK, result)
 
+}
+
+type Dog struct {
+	color string
 }
