@@ -10,23 +10,17 @@ import (
 )
 
 func DatabaseConnect() *gorm.DB {
-	DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", pkg.GodotEnv("DB_HOST"), pkg.GodotEnv("DB_PORT"), pkg.GodotEnv("DB_USER"), pkg.GodotEnv("DB_NAME"), pkg.GodotEnv("DB_PASSWORD"))
+	DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
+		pkg.GodotEnv("DB_HOST"), pkg.GodotEnv("DB_PORT"), pkg.GodotEnv("DB_USER"), pkg.GodotEnv("DB_NAME"), pkg.GodotEnv("DB_PASSWORD"))
 
 	db, err := gorm.Open(postgres.Open(DBURL), &gorm.Config{})
+	// fmt.Println(DBURL)
 
 	if err != nil {
 		defer logger.Info("Database connection failed")
 		logger.Fatal(err)
 		return nil
 	}
-
-	// err = db.AutoMigrate(&models.ModelCategory{}, &models.ModelUser{}, &models.ModelSupplier{}, &models.ModelCustomer{})
-	// if err != nil {
-	// 	defer logger.Info("Database connection failed")
-	// 	logger.Fatal(err)
-
-	// 	return nil
-	// }
 
 	return db
 
