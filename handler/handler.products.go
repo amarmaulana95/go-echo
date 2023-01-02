@@ -95,7 +95,3 @@ func (h *handlerProduct) HandlerResultAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 
 }
-
-type Dog struct {
-	color string
-}

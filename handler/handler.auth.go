@@ -74,7 +74,7 @@ func (h *handlerAuth) HandlerLogin(c echo.Context) error {
 		result := schemas.APIResponse("Error Authtentication", http.StatusUnprocessableEntity, "Error", "email atau password salah")
 		return c.JSON(http.StatusOK, result)
 	}
-
-	result := schemas.APIResponse("Success login", http.StatusOK, "success", jwt)
+	values := map[string]string{"access_token": jwt, "token_type": "Bearer"}
+	result := schemas.APIResponse("Success login", http.StatusOK, "success", values)
 	return c.JSON(http.StatusOK, result)
 }

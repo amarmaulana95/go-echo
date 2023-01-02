@@ -30,7 +30,7 @@ func NewRoute(db *gorm.DB, router *echo.Echo) {
 	routerUser := router.Group("/api/users")
 	routerProducts := router.Group("/api/products")
 
-	route.GET("/", func(c echo.Context) error {
+	route.GET("/main", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
