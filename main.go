@@ -1,28 +1,24 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/amarmaulana95/go-echo/config"
-	"github.com/amarmaulana95/go-echo/middleware"
+	k "github.com/amarmaulana95/go-echo/middleware"
 	"github.com/amarmaulana95/go-echo/routes"
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
-	var err error
+	// var err error
 	e := echo.New()
-
-	err = godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error getting env, not comming through %v", err)
-	} else {
-		fmt.Println("We are getting the env values")
-	}
+	e.Use(middleware.CORS())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"https://labstack.com", "https://labstack.net"},
+		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+	}))
 
 	db := config.DatabaseConnect()
 
@@ -30,7 +26,7 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	middleware.WebSecurityConfig(e)
+	k.WebSecurityConfig(e)
 
 	routes.NewRoute(db, e)
 
